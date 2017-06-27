@@ -1,6 +1,9 @@
-# Add your own tasks in files placed in lib/tasks ending in .rake,
-# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
+require 'html/proofer'
 
-require File.expand_path('../config/application', __FILE__)
+# rake test
+desc "build and test website"
 
-Rails.application.load_tasks
+task :test do
+  sh "bundle exec jekyll build"
+  HTML::Proofer.new("_site", {:href_ignore=> ['http://localhost:4000'], :verbose => true}).run
+end
